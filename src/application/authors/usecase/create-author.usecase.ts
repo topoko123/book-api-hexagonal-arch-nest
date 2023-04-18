@@ -9,7 +9,7 @@ import {
 export interface AuthorApplication {
   execute(dto: CreateAuthorDto): Promise<Author>;
 }
-// export const ITicketRepository = Symbol('ITicketRepository');
+
 export const IAuthorApplication = Symbol('IAuthorApplication');
 
 @Injectable()

@@ -1,20 +1,26 @@
 import { CreateAuthorDto } from '../dtos/create-author.dto';
 import { Author } from '../entities/author.entity';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { AuthorService } from './author.service';
+import { AuthorRepository, IAuthorRepository } from "../repositories/author.repository";
 
 @Injectable()
 export class AuthorServiceImpl implements AuthorService {
+  constructor(
+    @Inject(AuthorRepository)
+    private readonly authorRepository: IAuthorRepository,
+  ) {}
   async createAuthor(dto: CreateAuthorDto): Promise<Author> {
     // Business logic goes here
-    return new Author(
+    const author = new Author(
       dto.id,
       dto.firstName,
       dto.lastName,
       dto.email,
       dto.password,
-      123123123,
-      123213123,
+      12,
+      12,
     );
+    return await this.authorRepository.createAuthor(author);
   }
 }
