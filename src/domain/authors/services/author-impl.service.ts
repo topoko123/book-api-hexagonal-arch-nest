@@ -2,7 +2,10 @@ import { CreateAuthorDto } from '../dtos/create-author.dto';
 import { Author } from '../entities/author.entity';
 import { Inject, Injectable } from '@nestjs/common';
 import { AuthorService } from './author.service';
-import { AuthorRepository, IAuthorRepository } from "../repositories/author.repository";
+import {
+  AuthorRepository,
+  IAuthorRepository,
+} from '../repositories/author.repository';
 
 @Injectable()
 export class AuthorServiceImpl implements AuthorService {
@@ -22,5 +25,8 @@ export class AuthorServiceImpl implements AuthorService {
       12,
     );
     return await this.authorRepository.createAuthor(author);
+  }
+  async listAuthors(): Promise<Author[]> {
+    return await this.authorRepository.findAll();
   }
 }

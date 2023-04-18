@@ -1,9 +1,12 @@
 import { IAuthorRepository } from '../../../../../domain/authors/repositories/author.repository';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Schema } from "mongoose";
+import { Model, Schema } from 'mongoose';
 import { Author } from '../../../../../domain/authors/entities/author.entity';
 import { Injectable } from '@nestjs/common';
-import { AuthorModelMongo, ConvertAuthorModelMongo } from "../models/author.model";
+import {
+  AuthorModelMongo,
+  ConvertAuthorModelMongo,
+} from '../models/author.model';
 
 @Injectable()
 export class AuthorRepositoryMongo implements IAuthorRepository {
@@ -24,5 +27,22 @@ export class AuthorRepositoryMongo implements IAuthorRepository {
     const createdAuthor = new this.authorModel(s);
     await createdAuthor.save();
     return dto;
+  }
+  async findAll(): Promise<Author[]> {
+    const authorsMongo = await this.authorModel.find();
+    const authors = new Array<Author>();
+    authorsMongo.forEach((productMongo) => {
+      const author = new Author(
+        productMongo.id,
+        productMongo.first_name,
+        productMongo.last_name,
+        productMongo.email,
+        productMongo.password,
+        productMongo.created_at,
+        productMongo.updated_at,
+      );
+      authors.push(author);
+    });
+    return authors;
   }
 }

@@ -10,7 +10,7 @@ import {
 import {
   AuthorApplication,
   IAuthorApplication,
-} from '../../../application/authors/usecase/create-author.usecase';
+} from '../../../application/authors/usecase/command-author.usecase';
 import { CreateAuthorDto } from '../../../domain/authors/dtos/create-author.dto';
 import { ResponseAuthorCreated } from './response/interface/create-author-response.interface';
 
@@ -20,7 +20,7 @@ export class AuthorsController {
     @Inject(IAuthorApplication)
     private authorUseCase: AuthorApplication,
   ) {}
-  @Get()
+  @Get('/hello')
   async getHello() {
     return { message: 'ok' };
   }
@@ -33,5 +33,10 @@ export class AuthorsController {
       email: author.getEmail(),
     };
     return request.status(HttpStatus.CREATED).json(res);
+  }
+  @Get()
+  async getAllAuthorsAPI(@Res() request) {
+    const authors = await this.authorUseCase.fetchAuthors();
+    return request.status(HttpStatus.OK).json(authors);
   }
 }

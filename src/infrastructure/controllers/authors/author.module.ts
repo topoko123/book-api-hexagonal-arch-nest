@@ -2,9 +2,9 @@ import { Module } from '@nestjs/common';
 import { AuthorsController } from './authors.controller';
 import { AuthorServiceImpl } from '../../../domain/authors/services/author-impl.service';
 import {
-  CreateAuthorUseCase,
+  CommandAuthorUseCase,
   IAuthorApplication,
-} from '../../../application/authors/usecase/create-author.usecase';
+} from '../../../application/authors/usecase/command-author.usecase';
 import { IAuthorService } from '../../../domain/authors/services/author.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import AuthorSchema from '../../database/repositories/author/mongo/author-schema.mongo';
@@ -21,7 +21,7 @@ import { AuthorRepositoryMongo } from '../../database/repositories/author/mongo/
   providers: [
     {
       provide: IAuthorApplication,
-      useClass: CreateAuthorUseCase,
+      useClass: CommandAuthorUseCase,
     },
     {
       provide: IAuthorService,
